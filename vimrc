@@ -15,6 +15,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mattn/emmet-vim'
 Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'nvie/vim-flake8'
 
 " Auto reload
 autocmd! bufwritepost .vimrc source %
@@ -30,13 +31,13 @@ set incsearch
 set lazyredraw
 set showmatch
 set nowrap
-set pastetoggle=<F11>
+set pastetoggle=<F12>
 set mouse=a
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
 set showcmd
-set relativenumber
 set number
+set relativenumber
 set clipboard=unnamed
 set ruler
 
@@ -45,8 +46,11 @@ set ruler
 set hlsearch
 set incsearch
 set ignorecase
-set smartcase
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set smarttab
+set expandtab
 let python_highlight_all=1
 syntax on
 syntax enable
@@ -141,7 +145,7 @@ set statusline=%<%f\ %m%r%y%=%-35.(Line:\ %l/%L\ [%p%%][Format=%{&ff}]%)
 au BufRead,BufNewFile *py,*pyw,*.java set tabstop=4
 au BufRead,BufNewFile *py,*pyw,*.java set softtabstop=4
 au BufRead,BufNewFile *.py,*pyw,*.java set shiftwidth=4
-au BufRead,BufNewFile *.py,*.pyw,*.java set expandtab
+au BufRead,BufNewFile *.py set textwidth=80
 
 au BufRead,BufNewFile Makefile* set noexpandtab
 
@@ -176,7 +180,6 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.vim,*.pl,*.sh set nu
 " ------------------------------------------------------------
 "  Python IDE setup
 "  -----------------------------------------------------------
-
 " NERDTree
 map <F2> :NERDTreeToggle<CR>
 "let NERDTreeMinimalUI = 1
@@ -188,19 +191,18 @@ let NERDTreeIgnore=['\.pyc$', '\~$']
 " vim-jedi
 
 " Add the virtualenv's site-packages to vim path
-if has('python')
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, project_base_dir)
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
-endif
-
+"if has('python')
+"py << EOF
+"import os.path
+"import sys
+"import vim
+"if 'VIRTUAL_ENV' in os.environ:
+    "project_base_dir = os.environ['VIRTUAL_ENV']
+    "sys.path.insert(0, project_base_dir)
+    "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    "execfile(activate_this, dict(__file__=activate_this))
+"EOF
+"endif
 
 " Syntactic
 set statusline+=%#warningmsg#
@@ -208,10 +210,10 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_highlighting = 0
-let g:syntastic_echo_current_error = 0
+"let g:syntastic_enable_highlighting = 0
+"let g:syntastic_echo_current_error = 0
 
 " Python folding
 set nofoldenable
