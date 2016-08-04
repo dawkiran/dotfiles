@@ -12,10 +12,11 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'bling/vim-airline'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'mattn/emmet-vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'nvie/vim-flake8'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'christoomey/vim-tmux-navigator'
 
 " Auto reload
 autocmd! bufwritepost .vimrc source %
@@ -62,11 +63,11 @@ filetype indent on
 set autoindent
 
 " === Colour Scheme ===
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
+"if has('gui_running')
+    "set background=light
+"else
+    "set background=dark
+"endif
 "colorscheme solarized
 
 
@@ -78,18 +79,18 @@ set wildignore=.svn,CVS,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*
 
 " === Mappings ===
 " Unmap the arrow keys
-no <down> ddp
-no <left> <Nop>
-no <right> <Nop>
-no <up> ddkP
-ino <down> <Nop>
-ino <left> <Nop>
-ino <right> <Nop>
-ino <up> <Nop>
-vno <down> <Nop>
-vno <left> <Nop>
-vno <right> <Nop>
-vno <up> <Nop>
+"no <down> ddp
+"no <left> <Nop>
+"no <right> <Nop>
+"no <up> ddkP
+"ino <down> <Nop>
+"ino <left> <Nop>
+"ino <right> <Nop>
+"ino <up> <Nop>
+"vno <down> <Nop>
+"vno <left> <Nop>
+"vno <right> <Nop>
+"vno <up> <Nop>
 
 " better split window control
 nnoremap <C-J> <C-W><C-J>
