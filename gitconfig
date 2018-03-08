@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /Users/dawran6/.gitignore_global
+	editor = vim
 [user]
 	name = Daw-Ran Liou
 	email = dawran6@gmail.com
@@ -13,9 +14,3 @@
 	df = diff
 	dfs = diff --staged
 	logg = log --graph --decorate --oneline --abbrev-commit --all
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
