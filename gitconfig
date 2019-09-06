@@ -1,11 +1,14 @@
 [core]
 	excludesfile = /Users/dawran6/.gitignore_global
 	editor = vim
+	autocrlf = true
 [user]
 	name = Daw-Ran Liou
 	email = dawran6@gmail.com
 [color]
 	ui = true
+[include]
+    path = .gitalias
 [alias]
 	st = status
 	co = checkout
