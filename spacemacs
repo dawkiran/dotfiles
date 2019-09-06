@@ -56,7 +56,8 @@ This function should only modify configuration layer settings."
 
      ;; Enable clj-refactor tools
      (clojure :variables
-              clojure-enable-clj-refactor t)
+              clojure-enable-clj-refactor t
+              clojure-enable-linters 'clj-kondo)
      ;; To add the sayid debugger, include the following as a variable above
      ;; clojure-enable-sayid t
 
@@ -135,8 +136,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(ubuntu-theme
-                                      flycheck-clj-kondo)
+   dotspacemacs-additional-packages '(ubuntu-theme)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -726,10 +726,10 @@ before packages are loaded."
   ;; https://github.com/borkdude/clj-kondo/blob/master/doc/editor-integration.md#spacemacs
   ;;
   ;; Using clj-kondo by itself
-  (use-package clojure-mode
-    :ensure t
-    :config
-    (require 'flycheck-clj-kondo))
+  ;;(use-package clojure-mode
+  ;;  :ensure t
+  ;;  :config
+  ;;  (require 'flycheck-clj-kondo))
 
   ;; Using clj-kondo with joker
   ;; (use-package clojure-mode
