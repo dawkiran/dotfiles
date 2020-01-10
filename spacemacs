@@ -713,11 +713,12 @@ before packages are loaded."
   ;;
   ;; Indentation of function forms
   ;; https://github.com/clojure-emacs/clojure-mode#indentation-of-function-forms
+  (setq clojure-indent-style 'align-arguments)
   ;; (setq clojure-indent-style 'always-align)
   ;;
   ;; Vertically align s-expressions
   ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
-  ;; (setq clojure-align-forms-automatically t)
+  (setq clojure-align-forms-automatically t)
   ;;
   ;; Auto-indent code automatically
   ;; https://emacsredux.com/blog/2016/02/07/auto-indent-your-code-with-aggressive-indent-mode/
