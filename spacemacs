@@ -33,7 +33,9 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(sql
+   '(csv
+     ansible
+     sql
      ruby
      go
      ;; ----------------------------------------------------------------
@@ -125,7 +127,9 @@ This function should only modify configuration layer settings."
 
      html
 
-     javascript
+     (javascript :variables
+                 js2-basic-offset 2
+                 js-indent-level 2)
 
      (ranger :variables
              ranger-show-preview t
@@ -796,6 +800,8 @@ before packages are loaded."
     (setq web-mode-code-indent-offset 2))
   ;;
   (add-hook 'web-mode-hook  'web-mode-indent-2-hook)
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
   ;;
   ;; End of Web-mode configuration
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
