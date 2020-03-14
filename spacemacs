@@ -904,6 +904,7 @@ before packages are loaded."
   ;; Other hooks
   (add-hook 'prog-mode-hook 'evil-mc-mode)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
   )   ;; End of dot-spacemacs/user-config
 
