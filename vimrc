@@ -17,6 +17,7 @@ Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'nvie/vim-flake8'
 "Plugin 'altercation/vim-colors-solarized'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'fatih/vim-go'
 
 " Auto reload
 autocmd! bufwritepost .vimrc source %
