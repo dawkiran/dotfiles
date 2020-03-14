@@ -303,8 +303,8 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Fira Code"
-                               :size 14
+   dotspacemacs-default-font '("MonoLisa"
+                               :size 12
                                :weight normal
                                :width normal)
 
@@ -833,9 +833,9 @@ before packages are loaded."
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Fira code font configuration
+  ;; MonoLisa ligature
   ;;
-  (defun fira-code-mode--make-alist (list)
+  (defun monolisa-mode--make-alist (list)
     "Generate prettify-symbols alist from LIST."
     (let ((idx -1))
       (mapcar
@@ -852,7 +852,7 @@ before packages are loaded."
            (cons s (append prefix suffix (list (decode-char 'ucs code))))))
        list)))
   ;;
-  (defconst fira-code-mode--ligatures
+  (defconst monolisa-mode--ligatures
     '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
       "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
       "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
@@ -867,43 +867,32 @@ before packages are loaded."
       "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
       "x" ":" "+" "+" "*"))
   ;;
-  (defvar fira-code-mode--old-prettify-alist)
+  (defvar monolisa-mode--old-prettify-alist)
   ;;
-  (defun fira-code-mode--enable ()
-    "Enable Fira Code ligatures in current buffer."
-    (setq-local fira-code-mode--old-prettify-alist prettify-symbols-alist)
-    (setq-local prettify-symbols-alist (append (fira-code-mode--make-alist fira-code-mode--ligatures) fira-code-mode--old-prettify-alist))
+  (defun monolisa-mode--enable ()
+    "Enable MonoLisa ligatures in current buffer."
+    (setq-local monolisa-mode--old-prettify-alist prettify-symbols-alist)
+    (setq-local prettify-symbols-alist (append (monolisa-mode--make-alist monolisa-mode--ligatures) monolisa-mode--old-prettify-alist))
     (prettify-symbols-mode t))
-
   ;;
-  (defun fira-code-mode--disable ()
-    "Disable Fira Code ligatures in current buffer."
-    (setq-local prettify-symbols-alist fira-code-mode--old-prettify-alist)
+  (defun monolisa-mode--disable ()
+    "Disable MonoLisa in current buffer."
+    (setq-local prettify-symbols-alist monolisa-mode--old-prettify-alist)
     (prettify-symbols-mode -1))
-
   ;;
-  (define-minor-mode fira-code-mode
-    "Fira Code ligatures minor mode"
-    ;;:lighter " Fira Code"
-    :lighter ""
+  (define-minor-mode monolisa-mode
+    "MonoLisa minor mode"
+    :lighter " MonoLisa"
     (setq-local prettify-symbols-unprettify-at-point 'right-edge)
-    (if fira-code-mode
-        (fira-code-mode--enable)
-      (fira-code-mode--disable)))
-
+    (if monolisa-mode
+        (monolisa-mode--enable)
+      (monolisa-mode--disable)))
   ;;
-  (defun fira-code-mode--setup ()
-    "Setup Fira Code Symbols"
-    (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
-
+  (provide 'monolisa-mode)
+  (add-hook 'prog-mode-hook 'monolisa-mode)
   ;;
-  (provide 'fira-code-mode)
-
-  ;;
-  (add-hook 'prog-mode-hook 'fira-code-mode)
-  ;;
-  ;; End of Fira code font configuration
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; End of MonoLisa ligature
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
