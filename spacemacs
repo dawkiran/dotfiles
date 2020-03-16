@@ -270,14 +270,14 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
    ;; (default `text-mode')
-   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+   dotspacemacs-new-empty-buffer-major-mode 'org-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'org-mode
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
-   dotspacemacs-initial-scratch-message nil
+   dotspacemacs-initial-scratch-message "Scratch Buffer in Org-mode"
 
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
@@ -304,8 +304,8 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Hack"
-                               :size 13
+   dotspacemacs-default-font '("MonoLisa"
+                               :size 12
                                :weight normal
                                :width normal)
 
@@ -835,16 +835,81 @@ before packages are loaded."
   ;;     )
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Other hooks
   (add-hook 'prog-mode-hook 'evil-mc-mode)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; MonoLisa ligature
+  ;;
+  (defun monolisa-mode--make-alist (list)
+    "Generate prettify-symbols alist from LIST."
+    (let ((idx -1))
+      (mapcar
+       (lambda (s)
+         (setq idx (1+ idx))
+         (let* ((code (+ #Xe100 idx))
+                (width (string-width s))
+                (prefix ())
+                (suffix '(?\s (Br . Br)))
+                (n 1))
+           (while (< n width)
+             (setq prefix (append prefix '(?\s (Br . Bl))))
+             (setq n (1+ n)))
+           (cons s (append prefix suffix (list (decode-char 'ucs code))))))
+       list)))
+  ;;
+  (defconst monolisa-mode--ligatures
+    '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
+      "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
+      "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
+      "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
+      ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
+      "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
+      "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
+      "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
+      ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
+      "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
+      "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
+      "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
+      "x" ":" "+" "+" "*"))
+  ;;
+  (defvar monolisa-mode--old-prettify-alist)
+  ;;
+  (defun monolisa-mode--enable ()
+    "Enable MonoLisa ligatures in current buffer."
+    (setq-local monolisa-mode--old-prettify-alist prettify-symbols-alist)
+    (setq-local prettify-symbols-alist (append (monolisa-mode--make-alist monolisa-mode--ligatures) monolisa-mode--old-prettify-alist))
+    (prettify-symbols-mode t))
+  ;;
+  (defun monolisa-mode--disable ()
+    "Disable MonoLisa in current buffer."
+    (setq-local prettify-symbols-alist monolisa-mode--old-prettify-alist)
+    (prettify-symbols-mode -1))
+  ;;
+  (define-minor-mode monolisa-mode
+    "MonoLisa minor mode"
+    :lighter " MonoLisa"
+    (setq-local prettify-symbols-unprettify-at-point 'right-edge)
+    (if monolisa-mode
+        (monolisa-mode--enable)
+      (monolisa-mode--disable)))
+  ;;
+  (provide 'monolisa-mode)
+  (add-hook 'prog-mode-hook 'monolisa-mode)
+  ;;
+  ;; End of MonoLisa ligature
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; additional themes
   ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/alabaster-theme/")
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
   )   ;; End of dot-spacemacs/user-config
 
