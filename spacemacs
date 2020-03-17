@@ -152,6 +152,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(nord-theme
                                       sexy-monochrome-theme
+                                      constant-theme
                                       eink-theme
                                       paren-face
                                       idle-highlight-mode)
@@ -284,6 +285,8 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(sexy-monochrome
                          eink
+                         constant
+                         constant-light
                          spacemacs-dark
                          nord
                          )
