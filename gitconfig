@@ -4,6 +4,11 @@
 [user]
 	name = Daw-Ran Liou
 	email = dawran6@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [color]
 	ui = true
 [include]

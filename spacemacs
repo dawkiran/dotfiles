@@ -39,6 +39,8 @@ This function should only modify configuration layer settings."
      sql
      ruby
      go
+
+     theming
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -151,8 +153,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(nord-theme
-                                      sexy-monochrome-theme
+   dotspacemacs-additional-packages '(sexy-monochrome-theme
                                       constant-theme
                                       eink-theme
                                       paren-face
@@ -284,13 +285,12 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(sexy-monochrome
-                         eink
-                         constant
-                         constant-light
-                         spacemacs-dark
-                         nord
-                         )
+   dotspacemacs-themes '(;; Dark
+                         sexy-monochrome
+                         minimal
+                         ;; Light
+                         minimal-light
+                         whiteboard)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -529,7 +529,7 @@ It should only modify the values of Spacemacs settings."
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'all
+   dotspacemacs-whitespace-cleanup 'changed
 
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
@@ -554,6 +554,35 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
+  ;; custom theme modification
+  ;; - overriding default height of modeline
+  (setq-default
+   theming-modifications
+   '((minimal-light
+      ;; Font locking
+      (font-lock-comment-face :background "#FFFABC")
+      (font-lock-doc-face :background "#FFFABC")
+      (font-lock-string-face :background "#DBECB6")
+      (font-lock-function-name-face :background "#DBF1FF")
+      (font-lock-variable-name-face :background "#DBF1FF")
+      (font-lock-builtin-face :foreground "#000")
+      (font-lock-keyword-face :foreground "#000")
+      (font-lock-constant-face :foreground "#000")
+      (font-lock-type-face :foreground "#000")
+
+      ;; clojure font lock
+      (clojure-keyword-face :foreground "gray 90" :weight bold)
+
+      ;; hl-line
+      (hl-line :background "#FFE0E0")
+
+      ;; Fringe
+      (fringe :foreground "gray 90")
+
+      ;; Mode line
+      (mode-line :height 1.0)
+      (mode-line-inactive :height 1.0))))
   )
 
 (defun dotspacemacs/user-load ()
@@ -720,7 +749,8 @@ before packages are loaded."
   ;;
   ;; Indentation of function forms
   ;; https://github.com/clojure-emacs/clojure-mode#indentation-of-function-forms
-  (setq clojure-indent-style 'always-align)
+  (setq clojure-indent-style 'align-arguments)
+  ;; (setq clojure-indent-style 'always-align)
   ;;
   ;; Vertically align s-expressions
   ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
@@ -728,7 +758,7 @@ before packages are loaded."
   ;;
   ;; Auto-indent code automatically
   ;; https://emacsredux.com/blog/2016/02/07/auto-indent-your-code-with-aggressive-indent-mode/
-  (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
+  ;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
   ;;
   ;; Linting with clj-kondo
   ;; https://github.com/borkdude/clj-kondo/blob/master/doc/editor-integration.md#spacemacs
@@ -802,6 +832,8 @@ before packages are loaded."
     (setq web-mode-code-indent-offset 2))
   ;;
   (add-hook 'web-mode-hook  'web-mode-indent-2-hook)
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
   ;;
   ;; End of Web-mode configuration
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -836,10 +868,16 @@ before packages are loaded."
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Other hooks
+  (add-hook 'prog-mode-hook 'evil-mc-mode)
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; MonoLisa ligature
+  ;; Ligature
   ;;
-  (defun monolisa-mode--make-alist (list)
+  (defun ligature-mode--make-alist (list)
     "Generate prettify-symbols alist from LIST."
     (let ((idx -1))
       (mapcar
@@ -856,7 +894,7 @@ before packages are loaded."
            (cons s (append prefix suffix (list (decode-char 'ucs code))))))
        list)))
   ;;
-  (defconst monolisa-mode--ligatures
+  (defconst ligature-mode--ligatures
     '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
       "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
       "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
@@ -870,37 +908,36 @@ before packages are loaded."
       "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
       "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"))
   ;;
-  (defvar monolisa-mode--old-prettify-alist)
+  (defvar ligature-mode--old-prettify-alist)
   ;;
-  (defun monolisa-mode--enable ()
-    "Enable MonoLisa ligatures in current buffer."
-    (setq-local monolisa-mode--old-prettify-alist prettify-symbols-alist)
-    (setq-local prettify-symbols-alist (append (monolisa-mode--make-alist monolisa-mode--ligatures) monolisa-mode--old-prettify-alist))
+  (defun ligature-mode--enable ()
+    "Enable ligatures in current buffer."
+    (setq-local ligature-mode--old-prettify-alist prettify-symbols-alist)
+    (setq-local prettify-symbols-alist (append (ligature-mode--make-alist ligature-mode--ligatures) ligature-mode--old-prettify-alist))
     (prettify-symbols-mode t))
   ;;
-  (defun monolisa-mode--disable ()
-    "Disable MonoLisa in current buffer."
-    (setq-local prettify-symbols-alist monolisa-mode--old-prettify-alist)
+  (defun ligature-mode--disable ()
+    "Disable ligature in current buffer."
+    (setq-local prettify-symbols-alist ligature-mode--old-prettify-alist)
     (prettify-symbols-mode -1))
   ;;
-  (define-minor-mode monolisa-mode
-    "MonoLisa minor mode"
-    :lighter " MonoLisa"
+  (define-minor-mode ligature-mode
+    "ligature minor mode"
+    :lighter " ligature"
     (setq-local prettify-symbols-unprettify-at-point 'right-edge)
-    (if monolisa-mode
-        (monolisa-mode--enable)
-      (monolisa-mode--disable)))
+    (if ligature-mode
+        (ligature-mode--enable)
+      (ligature-mode--disable)))
   ;;
-  (provide 'monolisa-mode)
-  (add-hook 'prog-mode-hook 'monolisa-mode)
+  (provide 'ligature-mode)
   ;;
-  ;; End of MonoLisa ligature
+  ;; End of ligature
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Other hooks
-  (add-hook 'prog-mode-hook 'evil-mc-mode)
+  ;; additional themes
+  ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/alabaster-theme/")
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
@@ -919,12 +956,45 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sexy-monochrome)))
  '(custom-safe-themes
    (quote
-    ("82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" default)))
+    ("92b6598f9a421357938d888a42846e3497f52f2da0c886a708324aba3b9dd9a1" "075351c6aeaddd2343155cbcd4168da14f54284453b2f1c11d051b2687d6dc48" "82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(helm-completion-style (quote emacs))
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
  '(package-selected-packages
    (quote
-    (seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby paren-face idle-highlight-mode unfill sexy-monochrome-theme mwim eink-theme nord-theme sql-indent restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ubuntu-theme treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode prettier-js popwin persp-mode pcre2el password-generator paradox ox-gfm overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nodejs-repl nameless multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint kaolin-themes json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy forge font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flycheck-clj-kondo flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish diff-hl devdocs define-word company-web company-tern company-statistics company-quickhelp company-emoji command-log-mode column-enforce-mode color-identifiers-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adoc-mode ace-link ace-jump-helm-line ac-ispell))))
+    (zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme modus-vivendi-theme modus-operandi-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme espresso-theme dracula-theme doom-themes django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme chocolate-theme autothemer cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme constant-theme jinja2-mode company-ansible ansible-doc ansible helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags counsel swiper ivy company-go go-mode paren-face idle-highlight-mode unfill sexy-monochrome-theme mwim eink-theme nord-theme sql-indent restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ubuntu-theme treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode prettier-js popwin persp-mode pcre2el password-generator paradox ox-gfm overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nodejs-repl nameless multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint kaolin-themes json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy forge font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flycheck-clj-kondo flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish diff-hl devdocs define-word company-web company-tern company-statistics company-quickhelp company-emoji command-log-mode column-enforce-mode color-identifiers-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adoc-mode ace-link ace-jump-helm-line ac-ispell)))
+ '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
+ '(safe-local-variable-values
+   (quote
+    ((eval cider-register-cljs-repl-type
+           (quote dev)
+           "(do (require '[figwheel-sidecar.repl-api :as ra]) (ra/start-figwheel! \"dev\" \"dev-portal\" \"dev-hub\") (ra/cljs-repl \"dev\"))")
+     (eval define-clojure-indent
+           (subscribe->path 1)
+           (context 2)
+           (POST 2)
+           (ex/if-any-fails 1)
+           (ex/tfn 1))
+     (cider-default-cljs-repl . dev)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
