@@ -39,6 +39,7 @@ This function should only modify configuration layer settings."
      ruby
      go
 
+     theming
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -552,6 +553,35 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
+  ;; custom theme modification
+  ;; - overriding default height of modeline
+  (setq-default
+   theming-modifications
+   '((minimal-light
+      ;; Font locking
+      (font-lock-comment-face :background "#FFFABC")
+      (font-lock-doc-face :background "#FFFABC")
+      (font-lock-string-face :background "#DBECB6")
+      (font-lock-function-name-face :background "#DBF1FF")
+      (font-lock-variable-name-face :background "#DBF1FF")
+      (font-lock-builtin-face :foreground "#000")
+      (font-lock-keyword-face :foreground "#000")
+      (font-lock-constant-face :foreground "#000")
+      (font-lock-type-face :foreground "#000")
+
+      ;; clojure font lock
+      (clojure-keyword-face :foreground "gray 90" :weight bold)
+
+      ;; hl-line
+      (hl-line :background "#FFE0E0")
+
+      ;; Fringe
+      (fringe :foreground "gray 90")
+
+      ;; Mode line
+      (mode-line :height 1.0)
+      (mode-line-inactive :height 1.0))))
   )
 
 (defun dotspacemacs/user-load ()
