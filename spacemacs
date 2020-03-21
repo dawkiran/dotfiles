@@ -556,6 +556,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  (mac-auto-operator-composition-mode)
+
   ;; custom theme modification
   ;; - overriding default height of modeline
   (setq-default
@@ -873,67 +875,6 @@ before packages are loaded."
   ;; Other hooks
   (add-hook 'prog-mode-hook 'evil-mc-mode)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Ligature
-  ;;
-  (defun ligature-mode--make-alist (list)
-    "Generate prettify-symbols alist from LIST."
-    (let ((idx -1))
-      (mapcar
-       (lambda (s)
-         (setq idx (1+ idx))
-         (let* ((code (+ #Xe100 idx))
-                (width (string-width s))
-                (prefix ())
-                (suffix '(?\s (Br . Br)))
-                (n 1))
-           (while (< n width)
-             (setq prefix (append prefix '(?\s (Br . Bl))))
-             (setq n (1+ n)))
-           (cons s (append prefix suffix (list (decode-char 'ucs code))))))
-       list)))
-  ;;
-  (defconst ligature-mode--ligatures
-    '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
-      "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
-      "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
-      "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
-      ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
-      "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
-      "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
-      "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
-      ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
-      "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
-      "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
-      "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"))
-  ;;
-  (defvar ligature-mode--old-prettify-alist)
-  ;;
-  (defun ligature-mode--enable ()
-    "Enable ligatures in current buffer."
-    (setq-local ligature-mode--old-prettify-alist prettify-symbols-alist)
-    (setq-local prettify-symbols-alist (append (ligature-mode--make-alist ligature-mode--ligatures) ligature-mode--old-prettify-alist))
-    (prettify-symbols-mode t))
-  ;;
-  (defun ligature-mode--disable ()
-    "Disable ligature in current buffer."
-    (setq-local prettify-symbols-alist ligature-mode--old-prettify-alist)
-    (prettify-symbols-mode -1))
-  ;;
-  (define-minor-mode ligature-mode
-    "ligature minor mode"
-    :lighter " ligature"
-    (setq-local prettify-symbols-unprettify-at-point 'right-edge)
-    (if ligature-mode
-        (ligature-mode--enable)
-      (ligature-mode--disable)))
-  ;;
-  (provide 'ligature-mode)
-  ;;
-  ;; End of ligature
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
