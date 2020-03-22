@@ -287,7 +287,7 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          ;; Light
-                         minimal-light
+                         eink
                          ;; Dark
                          sexy-monochrome
                          minimal
@@ -562,10 +562,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; - overriding default height of modeline
   (setq-default
    theming-modifications
-   '((minimal-light
+   '((eink
       ;; Font locking
-      (font-lock-comment-face :background "#FFFABC")
-      (font-lock-doc-face :background "#FFFABC")
+      (font-lock-comment-face :background "#FFFABC" :weight normal)
+      (font-lock-doc-face :background "#FFFABC" :weight normal)
       (font-lock-string-face :background "#DBECB6")
       (font-lock-function-name-face :background "#DBF1FF")
       (font-lock-variable-name-face :background "#DBF1FF")
@@ -575,7 +575,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (font-lock-type-face :foreground "#000")
 
       ;; clojure font lock
-      (clojure-keyword-face :foreground "gray90" :weight bold)
+      (clojure-keyword-face :weight bold)
 
       ;; hl-line
       (hl-line :background "#FFE0E0")
