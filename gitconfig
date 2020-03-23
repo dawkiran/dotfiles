@@ -1,9 +1,9 @@
 [core]
-	excludesfile = /Users/dawran6/.gitignore_global
-	editor = vim
+	excludesfile = /Users/daw-ranliou/.gitignore_global
+	editor = emacs
 [user]
 	name = Daw-Ran Liou
-	email = dawran6@gmail.com
+	email = dawranliou@kirasystems.com
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
