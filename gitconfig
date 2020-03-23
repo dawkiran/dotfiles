@@ -3,7 +3,7 @@
 	editor = emacs
 [user]
 	name = Daw-Ran Liou
-	email = dawranliou@kirasystems.com
+	email = dawran.liou@kirasystems.com
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
