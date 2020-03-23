@@ -568,7 +568,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (font-lock-doc-face :background "#FFFABC" :weight normal)
       (font-lock-string-face :background "#DBECB6")
       (font-lock-function-name-face :background "#DBF1FF")
-      ;;(font-lock-variable-name-face :background "#DBF1FF")
+      (font-lock-variable-name-face :background "#DBF1FF")
       (font-lock-builtin-face :foreground "#000")
       (font-lock-keyword-face :foreground "#000")
       (font-lock-constant-face :foreground "#000")
