@@ -601,7 +601,6 @@ before packages are loaded."
         (goto-char point-pos1))))
   (define-key global-map (kbd "C-#") 'clojure-toggle-reader-comment-sexp)
 
-  (add-hook 'prog-mode-hook 'evil-mc-mode)
 
   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
