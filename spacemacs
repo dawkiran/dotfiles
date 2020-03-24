@@ -546,10 +546,10 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  (setq undo-limit 400000)
-  (setq undo-strong-limit 6000000)
-  (setq undo-strong-limit 60000000)
-  (setq multi-term-program "/usr/bin/fish")
+  (setq undo-limit 400000
+        undo-strong-limit 6000000
+        undo-strong-limit 60000000
+        multi-term-program "/usr/bin/fish")
 
   ;; Version Control configuration - Git, etc
   (diff-hl-flydiff-mode)
@@ -561,20 +561,17 @@ before packages are loaded."
   ;; Org-mode configuration
   (setq org-reveal-root "")
   (with-eval-after-load 'org
-    (setq org-default-notes-file "~/Dropbox/todo-list.org"))
-  (with-eval-after-load 'org
-    (setq org-todo-keywords
-         '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED"))))
-  (with-eval-after-load 'org
-    (setq org-todo-keyword-faces
-         '(("todo" . "SlateGray")
-           ("doing" . "DarkOrchid")
-           ("blocked" . "Firebrick")
-           ("review" . "Teal")
-           ("done" . "ForestGreen")
-           ("archived" .  "SlateBlue"))))
-  (with-eval-after-load 'org
-    (setq org-log-done 'time))
+    (setq org-default-notes-file "~/Dropbox/todo-list.org"
+          org-log-done 'time
+          org-todo-keywords
+          '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED"))
+          org-todo-keyword-faces
+          '(("todo" . "SlateGray")
+            ("doing" . "DarkOrchid")
+            ("blocked" . "Firebrick")
+            ("review" . "Teal")
+            ("done" . "ForestGreen")
+            ("archived" .  "SlateBlue"))))
   (add-hook
    'org-mode-hook
    (lambda ()
@@ -587,9 +584,9 @@ before packages are loaded."
 
   ;; Clojure configurations
   (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-clojure-mode)
-  (setq cider-pprint-fn 'fipp)
-  (setq clojure-indent-style 'align-arguments)
-  (setq clojure-align-forms-automatically t)
+  (setq cider-pprint-fn 'fipp
+        clojure-indent-style 'align-arguments
+        clojure-align-forms-automatically t)
   (defun clojure-toggle-reader-comment-sexp ()
     (interactive)
     (let* ((point-pos1 (point)))
