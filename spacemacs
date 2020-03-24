@@ -39,106 +39,48 @@ This function should only modify configuration layer settings."
      sql
      ruby
      go
-
      theming
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-
-     ;;;;;;;;;;;;;;;;;; Recommended Layers ;;;;;;;;;;;;;;;;;;;;;;;;
-
-     ;; Add tool tips to show doc string of functions
-     ;; Show snippets in the autocompletion popup
-     ;; Show suggestions by most commonly used
      (auto-completion :variables
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t)
-     ;; To have auto-completion on as soon as you start typing
-     ;; (auto-completion :variables auto-completion-idle-delay nil)
-
      better-defaults
-
-     ;; For Spacemacs configuration files and packages
      emacs-lisp
-
-     ;; Open Magit git client full screen (quit restores previous layout)
-     ;; Add github support (using magithub)
-     ;; Highlight working copy changes
      (git :variables
           git-magit-status-fullscreen t
           git-enable-github-support t
           git-gutter-use-fringe t)
-
      helm
-     ;; (helm :variables
-     ;;       helm-enable-auto-resize t
-     ;;       helm-position 'top  ; top, bottom, left, right
-     ;;       helm-use-frame-when-more-than-two-windows nil)
-
      markdown
-
      multiple-cursors
-
      (org :variables
           org-enable-github-support t
           org-enable-reveal-js-support nil)
-
-     ;; Emacs will run eshell, if you want to run zsh or something else, then add
-     ;; shell-default-shell 'multi-term
-     ;; SPC ' opens eshell in popup at bottome of Spacemacs
      (shell :variables
             shell-default-shell 'eshell
             shell-default-height 30
             shell-default-position 'bottom)
-
      spell-checking
-
-     ;; Use original flycheck fringe bitmaps
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
-
      treemacs
-
      (version-control :variables
                       version-control-diff-tool 'diff-hl
                       version-control-global-margin t)
-
-     ;;;;;;;;;;;;;;;;;; Custom Layers ;;;;;;;;;;;;;;;;;;;;;;;;
-
-     ;; Enable clj-refactor tools
      (clojure :variables
-              clojure-enable-clj-refactor t)
-     ;; Add the Joker linter for real-time linting in Clojure
-     ;; Requires local install of Joker tool
-     ;; clojure-lint
-
-     ;; Show commands as you type in a separate buffer
+              clojure-enable-clj-refactor t
+              clojure-enable-linters 'clj-kondo)
      command-log
-
-     ;; Nyan cat tells you where you are in your file
-     ;; (colors :variables
-     ;;        colors-enable-nyan-cat-progress-bar t)
-
-     ;; Include emojis into everything
      emoji
-
-     ;; use magithub to talk to your github account and Github Gists
      github
-
      html
-
      (ranger :variables
              ranger-show-preview t
              ranger-show-hidden t
              ranger-cleanup-eagerly t
              ranger-cleanup-on-disable t
              ranger-ignored-extensions '("mkv" "flv" "iso" "mp4"))
-
      yaml
-
      restclient
      )
 
@@ -153,7 +95,8 @@ This function should only modify configuration layer settings."
                                       constant-theme
                                       eink-theme
                                       paren-face
-                                      idle-highlight-mode)
+                                      idle-highlight-mode
+                                      flycheck-clj-kondo)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -554,9 +497,14 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (mac-auto-operator-composition-mode)
 
-  ;; custom theme modification
-  ;; - overriding default height of modeline
   (setq-default
+   js2-basic-offset 2
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2
+
    theming-modifications
    '((eink
       ;; Font locking
@@ -582,16 +530,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       ;; Mode line
       (mode-line :height 1.0)
       (mode-line-inactive :height 1.0))))
-
-  (setq-default
-   ;; js2-mode
-   js2-basic-offset 2
-   ;; web-mode
-   css-indent-offset 2
-   web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2
-   web-mode-code-indent-offset 2
-   web-mode-attr-indent-offset 2)
   )
 
 (defun dotspacemacs/user-load ()
@@ -608,104 +546,25 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Workarounds and bug fixes - temporary hopefully
-  ;;
-  ;; Undo history size limit, triggering garbage collection
-  ;; Updating all defaults by a power of 10 (adding another zero at the end)
-  ;; default in spacemacs is 80000
   (setq undo-limit 400000)
-  ;;
-  ;; default in spacemacs is 120000
   (setq undo-strong-limit 6000000)
-  ;;
-  ;; default in spacemacs is 12000000
   (setq undo-strong-limit 60000000)
-  ;;
-  ;;
-  ;; disable undo-tree as it seems to be loosing history
-  ;; (global-undo-tree-mode -1)
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Shell configuration
-  ;;
-  ;; Use fish for default multi-term shell
   (setq multi-term-program "/usr/bin/fish")
-  ;;
-  ;; End of Shell configuration
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Spell checking
-  ;; merged into Spacemacs `develop'
-  ;;
-  ;; Add keybinding to correct current word under the cursor
-  ;; to the existing spelling menu, `S'
-  ;; (spacemacs/set-leader-keys "Ss" 'flyspell-correct-at-point)
-  ;;
-  ;; Or in the user-binding menu
-  ;; (spacemacs/set-leader-keys "os" 'flyspell-correct-at-point)
-  ;;
-  ;; Documentation:
-  ;; http://develop.spacemacs.org/doc/DOCUMENTATION.html#binding-keys
-  ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Version Control configuration - Git, etc
-  ;;
-  ;; diff-hl - diff hightlights in right gutter as you type
   (diff-hl-flydiff-mode)
-  ;;
-  ;; Load in magithub features after magit package has loaded
-  ;; (use-package magithub
-  ;;   :after magit
-  ;;   :config (magithub-feature-autoinject t))
-  ;;
-  ;; Use Spacemacs as the $EDITOR (or $GIT_EDITOR) for git commits messages
-  ;; when using git commit on the command line
   (global-git-commit-mode t)
-  ;;
-  ;; Set locations of all your Git repositories
-  ;; with a number to define how many sub-directories to search
-  ;; `SPC g L' - list all Git repositories in the defined paths,
   (setq magit-repository-directories
         '(("~/.emacs.d"  . 0)
           ("~/projects/" . 2)))
-  ;;
-  ;; end of version control configuration
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org-mode configuration
-  ;;
-  ;; I should write a toggle function to show descriptive or literate links in Org-mode
-  ;;(setq org-descriptive-links nil)
-  ;;
-  ;; Org-reveal - define were reveal.js files can be found
-  ;; (I place reveal.js files in same directory as I write the org files)
   (setq org-reveal-root "")
-  ;;
-  ;; Define the location of the file to hold tasks
   (with-eval-after-load 'org
     (setq org-default-notes-file "~/Dropbox/todo-list.org"))
-  ;;
-  ;; Define a kanban style set of stages for todo tasks
   (with-eval-after-load 'org
     (setq org-todo-keywords
          '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED"))))
-  ;;
-  ;; The default keywords all use the same colour.
-  ;; Make the states easier to distinguish by using different colours
-  ;; Using X11 colour names from: https://en.wikipedia.org/wiki/Web_colors
-  ;; Setting colours (faces) using the `org-todo-keyword-faces' defcustom function
-  ;; https://github.com/tkf/org-mode/blob/master/lisp/org-faces.el#L376
-  ;; Using `with-eval-after-load' as a hook to call this setting when org-mode is run
   (with-eval-after-load 'org
     (setq org-todo-keyword-faces
          '(("todo" . "SlateGray")
@@ -714,13 +573,8 @@ before packages are loaded."
            ("review" . "Teal")
            ("done" . "ForestGreen")
            ("archived" .  "SlateBlue"))))
-  ;;
-  ;; Progress Logging
-  ;; When a TODO item enters DONE, add a CLOSED: property with current date-time stamp
   (with-eval-after-load 'org
     (setq org-log-done 'time))
-  ;;
-  ;; customize org-mode's checkboxes with unicode symbols
   (add-hook
    'org-mode-hook
    (lambda ()
@@ -729,79 +583,13 @@ before packages are loaded."
      (push '("[X]" . "☑" ) prettify-symbols-alist)
      (push '("[-]" . "❍" ) prettify-symbols-alist)
      (prettify-symbols-mode)))
-  ;;
-  ;; Markdown mode hook for orgtbl-mode minor mode
   (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
-  ;;
-  ;; Turn on visual-line-mode for Org-mode only
-  ;; (add-hook 'org-mode-hook 'turn-on-visual-line-mode)
-  ;;
-  ;; use org-re-reveal instead of org-reveal (which hasnt been updated in ages and breaks org-mode 9.2)
-  ;; (use-package org-re-reveal :after org)
-  ;;
-  ;; End of Org-mode Configuration
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Clojure configurations
-  ;;
-  ;; In clojure-mode, treat hyphenated words as a single word.
-  ;; TODO Sometimes this doesn't work
-  ;;(add-hook 'clojure-mode-hook #'(lambda () (modify-syntax-entry ?- "w")))
-  ;;
-  ;; enable safe structural editing in evil (clojure layer - evil-cleverparens)
   (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-clojure-mode)
-  ;;
-  ;; Pretty print in Clojure to use the Fast Idiomatic Pretty-Printer. This is approximately 5-10x faster than clojure.core/pprint
   (setq cider-pprint-fn 'fipp)
-  ;;
-  ;; Indentation of function forms
-  ;; https://github.com/clojure-emacs/clojure-mode#indentation-of-function-forms
   (setq clojure-indent-style 'align-arguments)
-  ;; (setq clojure-indent-style 'always-align)
-  ;;
-  ;; Vertically align s-expressions
-  ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
   (setq clojure-align-forms-automatically t)
-  ;;
-  ;; Auto-indent code automatically
-  ;; https://emacsredux.com/blog/2016/02/07/auto-indent-your-code-with-aggressive-indent-mode/
-  ;; (add-hook 'clojure-mode-hook #'aggressive-indent-mode)
-  ;;
-  ;; Linting with clj-kondo
-  ;; https://github.com/borkdude/clj-kondo/blob/master/doc/editor-integration.md#spacemacs
-  ;;
-  ;; Using clj-kondo by itself
-  ;;(use-package clojure-mode
-    ;;:ensure t
-    ;;:config
-    ;;(require 'flycheck-clj-kondo))
-  ;;
-  ;; Using clj-kondo with joker
-  ;; (use-package clojure-mode
-  ;;   :ensure t
-  ;;   :config
-  ;;   (require 'flycheck-joker)
-  ;;   (require 'flycheck-clj-kondo)
-  ;;   (dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
-  ;;     (setq flycheck-checkers (cons checker (delq checker flycheck-checkers))))
-  ;;   (dolist (checkers '((clj-kondo-clj . clojure-joker)
-  ;;                       (clj-kondo-cljs . clojurescript-joker)
-  ;;                       (clj-kondo-cljc . clojure-joker)
-  ;;                       (clj-kondo-edn . edn-joker)))
-  ;;     (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers)))))
-
-  ;; hook for command-line-mode - shows keybindings & commands in separate buffer
-  ;; load command-line-mode when opening a clojure file
-  ;; (add-hook 'clojure-mode-hook 'command-log-mode)
-  ;;
-  ;; turn on command-log-mode when opening a source code or text file
-  ;; (add-hook 'prog-mode-hook 'command-log-mode)
-  ;; (add-hook 'text-mode-hook 'command-log-mode)
-  ;;
-  ;; toggle reader macro sexp comment
-  ;; toggles the #_ characters at the start of an expression
   (defun clojure-toggle-reader-comment-sexp ()
     (interactive)
     (let* ((point-pos1 (point)))
@@ -814,60 +602,10 @@ before packages are loaded."
             (delete-char cmtstr-len)
           (insert cmtstr))
         (goto-char point-pos1))))
-  ;;
-  ;; Assign keybinding to the toggle-reader-comment-sexp function
   (define-key global-map (kbd "C-#") 'clojure-toggle-reader-comment-sexp)
-  ;;
-  ;; Evaluate code when it is contained in a (comment (,,,))
-  ;; 24th sept - didnt work, even after updating spacemacs and packages
-  ;; (setq cider-eval-toplevel-inside-comment-form t)
-  ;;
-  ;; (add-hook 'clojure-mode-hook
-  ;;           '(setq cider-eval-toplevel-inside-comment-form t))
-  ;;
-  ;;
-  ;; end of clojure configuration
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; evil-cleverparens - now part of the clojure layer (develop branch)
-  ;;
-  ;; use the evil-cleverparens layer
-  ;; https://github.com/luxbock/evil-cleverparens
-  ;;
-  ;; add evil-cleverparens to clojure-mode
-  ;; (spacemacs/toggle-evil-cleverparens-on)
-  ;; (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
-  ;; end of evil-smartparens
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; exclude sayid as it currently does not support nrepl 0.4
-  ;;
-  ;; Temporary fix
-  ;; (setq sayid-inject-dependencies-at-jack-in nil)
-  ;; issue raised: https://github.com/syl20bnr/spacemacs/issues/11146
-  ;;
-  ;; pull request merged into develop to switch sayid off by default
-  ;; https://github.com/bpiel/sayid/pull/40
-  ;; enable sayid by adding this code to the .spacemacs dotspacemacs/layers configuration
-  ;;   dotspacemacs-configuration-layers
-  ;;    '(
-  ;;       (clojure :variables clojure-enable-sayid t)
-  ;;     )
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Other hooks
   (add-hook 'prog-mode-hook 'evil-mc-mode)
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; additional themes
-  ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/alabaster-theme/")
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
   )   ;; End of dot-spacemacs/user-config
