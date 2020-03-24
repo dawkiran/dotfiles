@@ -402,7 +402,6 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-line-numbers nil
 
-
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -549,44 +548,24 @@ before packages are loaded."
   (setq undo-limit 400000
         undo-strong-limit 6000000
         undo-strong-limit 60000000
-        multi-term-program "/usr/bin/fish")
+        multi-term-program "/usr/bin/fish"
+
+        magit-repository-directories
+        '(("~/.emacs.d"  . 0)
+          ("~/projects/" . 2))
+
+        cider-pprint-fn 'fipp
+        clojure-indent-style 'align-arguments
+        clojure-align-forms-automatically t)
+
+  (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
   ;; Version Control configuration - Git, etc
   (diff-hl-flydiff-mode)
   (global-git-commit-mode t)
-  (setq magit-repository-directories
-        '(("~/.emacs.d"  . 0)
-          ("~/projects/" . 2)))
-
-  ;; Org-mode configuration
-  (setq org-reveal-root "")
-  (with-eval-after-load 'org
-    (setq org-default-notes-file "~/Dropbox/todo-list.org"
-          org-log-done 'time
-          org-todo-keywords
-          '((sequence "TODO" "DOING" "BLOCKED" "REVIEW" "|" "DONE" "ARCHIVED"))
-          org-todo-keyword-faces
-          '(("todo" . "SlateGray")
-            ("doing" . "DarkOrchid")
-            ("blocked" . "Firebrick")
-            ("review" . "Teal")
-            ("done" . "ForestGreen")
-            ("archived" .  "SlateBlue"))))
-  (add-hook
-   'org-mode-hook
-   (lambda ()
-     "Beautify Org Checkbox Symbol"
-     (push '("[ ]" .  "☐") prettify-symbols-alist)
-     (push '("[X]" . "☑" ) prettify-symbols-alist)
-     (push '("[-]" . "❍" ) prettify-symbols-alist)
-     (prettify-symbols-mode)))
-  (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
 
   ;; Clojure configurations
   (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-clojure-mode)
-  (setq cider-pprint-fn 'fipp
-        clojure-indent-style 'align-arguments
-        clojure-align-forms-automatically t)
   (defun clojure-toggle-reader-comment-sexp ()
     (interactive)
     (let* ((point-pos1 (point)))
@@ -600,9 +579,6 @@ before packages are loaded."
           (insert cmtstr))
         (goto-char point-pos1))))
   (define-key global-map (kbd "C-#") 'clojure-toggle-reader-comment-sexp)
-
-
-  (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
   )   ;; End of dot-spacemacs/user-config
 
