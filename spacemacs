@@ -84,6 +84,7 @@ This function should only modify configuration layer settings."
      yaml
      restclient
      osx
+     colors
      )
 
    ;; List of additional packages that will be installed without being
