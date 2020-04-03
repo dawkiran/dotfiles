@@ -70,7 +70,7 @@ This function should only modify configuration layer settings."
                       version-control-global-margin t)
      (clojure :variables
               clojure-enable-clj-refactor t
-              clojure-enable-linters '(clj-kondo joker squiggly))
+              clojure-enable-linters 'clj-kondo)
      command-log
      emoji
      github
