@@ -591,16 +591,17 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector ["#000000" "#d3d3d3" "#a9a9a9" "#778899"])
  '(custom-safe-themes
    (quote
     ("bffb799032a7404b33e431e6a1c46dc0ca62f54fdd20744a35a57c3f78586646" default)))
+ '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (reveal-in-osx-finder osx-trash osx-dictionary osx-clipboard launchctl flycheck-joker flycheck-clojure minimal-theme seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby paren-face idle-highlight-mode unfill sexy-monochrome-theme mwim eink-theme nord-theme sql-indent restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ubuntu-theme treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode prettier-js popwin persp-mode pcre2el password-generator paradox ox-gfm overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nodejs-repl nameless multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint kaolin-themes json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy forge font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flycheck-clj-kondo flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish diff-hl devdocs define-word company-web company-tern company-statistics company-quickhelp company-emoji command-log-mode column-enforce-mode color-identifiers-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adoc-mode ace-link ace-jump-helm-line ac-ispell)))
+    (yapfify utop tuareg caml tide typescript-mode pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements ocp-indent ob-elixir mvn meghanada maven-test-mode lsp-ui lsp-treemacs lsp-python-ms lsp-java live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-lsp groovy-mode groovy-imports gradle-mode flycheck-ocaml merlin flycheck-mix flycheck-credo dune cython-mode company-lsp lsp-mode company-anaconda blacken anaconda-mode pythonic alchemist elixir-mode reveal-in-osx-finder osx-trash osx-dictionary osx-clipboard launchctl flycheck-joker flycheck-clojure minimal-theme seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode counsel-gtags counsel swiper ivy chruby bundler inf-ruby paren-face idle-highlight-mode unfill sexy-monochrome-theme mwim eink-theme nord-theme sql-indent restclient-helm ob-restclient ob-http company-restclient restclient know-your-http-well yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package ubuntu-theme treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode prettier-js popwin persp-mode pcre2el password-generator paradox ox-gfm overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nodejs-repl nameless multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint kaolin-themes json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy forge font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flycheck-clj-kondo flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emojify emoji-cheat-sheet-plus emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish diff-hl devdocs define-word company-web company-tern company-statistics company-quickhelp company-emoji command-log-mode column-enforce-mode color-identifiers-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adoc-mode ace-link ace-jump-helm-line ac-ispell)))
  '(safe-local-variable-values
    (quote
-    ((cider-default-cljs-repl . dev)
-     (eval define-clojure-indent
+    ((eval define-clojure-indent
            (subscribe->path 1)
            (context 2)
            (POST 2)
@@ -609,6 +610,8 @@ This function is called at the very end of Spacemacs initialization."
      (eval cider-register-cljs-repl-type
            (quote dev)
            "(do (require '[figwheel-sidecar.repl-api :as ra]) (ra/start-figwheel! \"dev\" \"dev-portal\" \"dev-hub\") (ra/cljs-repl \"dev\"))")
+     (eval define-clojure-indent
+           (defview :defn))
      (javascript-backend . tide)
      (javascript-backend . tern)
      (javascript-backend . lsp)
@@ -619,18 +622,13 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(clojure-keyword-face ((t (:weight bold))))
- '(font-lock-builtin-face ((t (:foreground "#000"))))
- '(font-lock-comment-face ((t (:background "#FFFABC" :weight normal))))
- '(font-lock-constant-face ((t (:foreground "#000"))))
- '(font-lock-doc-face ((t (:background "#FFFABC" :weight normal))))
+ '(font-lock-comment-face ((t (:foreground "#808080" :weight normal))))
+ '(font-lock-doc-face ((t (:foreground "#808080" :weight normal))))
  '(font-lock-function-name-face ((t (:background "#DBF1FF"))))
- '(font-lock-keyword-face ((t (:foreground "#000"))))
- '(font-lock-string-face ((t (:background "#DBECB6"))))
- '(font-lock-type-face ((t (:foreground "#000"))))
+ '(font-lock-string-face ((t (:foreground "#00449e"))))
  '(font-lock-variable-name-face ((t (:background "#DBF1FF"))))
  '(fringe ((t (:foreground "gray90"))))
- '(hl-line ((t (:background "#FFE0E0"))))
+ '(hl-line ((t (:background "gray90"))))
  '(mode-line ((t (:height 1.0))))
  '(mode-line-inactive ((t (:height 1.0)))))
 )
