@@ -232,7 +232,6 @@ It should only modify the values of Spacemacs settings."
                          eink
                          ;; Dark
                          sexy-monochrome
-                         minimal
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -510,28 +509,22 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
    theming-modifications
    '((eink
       ;; Font locking
-      (font-lock-comment-face :background "#FFFABC" :weight normal)
-      (font-lock-doc-face :background "#FFFABC" :weight normal)
-      (font-lock-string-face :background "#DBECB6")
+      (font-lock-comment-face :foreground "#808080" :weight normal)
+      (font-lock-doc-face :foreground "#808080" :weight normal)
+      (font-lock-string-face :foreground "#00449e")
       (font-lock-function-name-face :background "#DBF1FF")
       (font-lock-variable-name-face :background "#DBF1FF")
-      (font-lock-builtin-face :foreground "#000")
-      (font-lock-keyword-face :foreground "#000")
-      (font-lock-constant-face :foreground "#000")
-      (font-lock-type-face :foreground "#000")
-
-      ;; clojure font lock
-      (clojure-keyword-face :weight bold)
 
       ;; hl-line
-      (hl-line :background "#FFE0E0")
+      (hl-line :background "gray90")
 
       ;; Fringe
       (fringe :foreground "gray90")
 
       ;; Mode line
       (mode-line :height 1.0)
-      (mode-line-inactive :height 1.0))))
+      (mode-line-inactive :height 1.0)
+      )))
   )
 
 (defun dotspacemacs/user-load ()
